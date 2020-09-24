@@ -1,0 +1,159 @@
+Attribute VB_Name = "MODMAIN"
+'******************************************************************
+' Programmer  : Jerson Chy
+' Description : Sales and Inventory System
+' Setup ODBC
+' ----------
+' DSN = MainDB
+' select database
+'*****************************************************************
+Option Explicit
+
+' API DECLARATION
+'*****************************************************************
+
+Public Const WM_USER = &H400
+Public Const TB_SETSTYLE = WM_USER + 56
+Public Const TBSTYLE_FLAT = &H800
+Public Const LVM_FIRST = &H1000 ' ListView messages
+Public Const LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)  'optionalwParam==mask
+Public Const LVS_EX_GRIDLINES = &H1
+Public Const LVM_GETHEADER = LVM_FIRST + 31
+Public Const GWL_STYLE = (-16)
+Public Const HDS_BUTTONS = &H2
+Public Const LVS_EX_FULLROWSELECT = &H20 ' applies to report mode only
+Public Const ES_UPPERCASE = &H8&
+Public Const SWP_DRAWFRAME As Long = &H20
+Public Const SWP_NOMOVE As Long = &H2
+Public Const SWP_NOSIZE As Long = &H1
+Public Const SWP_NOZORDER As Long = &H4
+Public Const SWP_FLAGS As Long = SWP_NOZORDER Or SWP_NOSIZE Or SWP_NOMOVE Or SWP_DRAWFRAME
+
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
+Public Declare Function SendMessageLong Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal hWnd1 As Long, ByVal hWnd2 As Long, ByVal lpsz1 As String, ByVal lpsz2 As String) As Long
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+
+
+'*****************************************************************
+
+Public DBMain As DAO.Database
+Public RSMain As DAO.Recordset
+Public QYMain As DAO.QueryDef
+Public WSMain As DAO.Workspace
+Public CNMain As DAO.Connection
+
+' Generate Customer Number automatically
+Public Function AutoCustomerNumber() As String
+    Dim TQR As DAO.QueryDef
+    Dim TRS As DAO.Recordset
+    Dim start As String
+    start = "0000"
+    Set TQR = DBMain.CreateQueryDef("", "SELECT custno FROM customers")
+    Set TRS = TQR.OpenRecordset()
+    Do While Not TRS.EOF
+        TRS.FindFirst "CUSTNO='C-" + start + "'"
+        If Not TRS.NoMatch Then
+            start = Format(Str(Val(Mid$(start, 3)) + 1), "0000")
+        Else
+            AutoCustomerNumber = "C-" + start
+            Exit Function
+        End If
+    Loop
+    AutoCustomerNumber = "C-" + start
+End Function
+
+Public Sub main()
+    ' Create ODBC workspace
+    Set WSMain = DBEngine.Workspaces(0)
+    ' Open Main Database
+    Set DBMain = WSMain.OpenDatabase(App.Path + "\database\masterdb.mdb")
+    FlatToolBar MDIMAIN.TLBMAIN
+    SetFlatList FRMCUSTOMERS.LSTCUSTOMERS, FRMCUSTOMERS
+    MDIMAIN.Show
+    
+End Sub
+
+' Enables / disables textbox in fields of customers
+Public Sub SetText(ByVal Status As Boolean)
+    Dim X As Long
+    For X = 1 To 6
+        FRMCUSTOMERS.TXTF(X).Enabled = Status
+    Next X
+End Sub
+
+Public Sub FillDatas()
+    Dim TQR As DAO.QueryDef
+    Dim TRS As DAO.Recordset
+    Dim LISTCUST  As ListItem
+    Set TQR = DBMain.QueryDefs("FILLDATAS")
+    Set TRS = TQR.OpenRecordset()
+    With FRMCUSTOMERS
+    Do While Not TRS.EOF
+        Set LISTCUST = .LSTCUSTOMERS.ListItems.Add(, , TRS.Fields(0), , 1)
+        LISTCUST.SubItems(1) = TRS.Fields(1)
+        LISTCUST.SubItems(2) = TRS.Fields(2)
+        LISTCUST.SubItems(3) = TRS.Fields(3)
+        LISTCUST.SubItems(4) = TRS.Fields(4)
+        LISTCUST.SubItems(5) = TRS.Fields(5)
+        LISTCUST.SubItems(6) = TRS.Fields(6)
+        TRS.MoveNext
+    Loop
+    End With
+End Sub
+
+Public Sub ClearText()
+    Dim X As Long
+    For X = 0 To 6
+        FRMCUSTOMERS.TXTF(X).Text = ""
+    Next X
+End Sub
+
+Public Sub FlatToolBar(ByVal Tool As Toolbar)
+    Dim hwtool As Long
+    hwtool = FindWindowEx(Tool.hwnd, 0&, "ToolBarWindow32", vbNullString)
+    Call SendMessageLong(hwtool, TB_SETSTYLE, 0, TBSTYLE_FLAT)
+    Tool.Refresh
+End Sub
+
+Public Sub SetFlatList(ByVal lst As ListView, ByVal parentform As Form)
+    Dim header As Long
+    Dim style As Long
+    
+    header = SendMessage(lst.hwnd, LVM_GETHEADER, 0, ByVal 0)
+    style = GetWindowLong(header, GWL_STYLE)
+    style = style Xor HDS_BUTTONS
+    
+    SetWindowLong header, GWL_STYLE, style
+    SetWindowPos lst.hwnd, parentform.hwnd, 0, 0, 0, 0, SWP_FLAGS
+    'make a grid lines
+    SendMessage lst.hwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, LVS_EX_GRIDLINES, ByVal 1
+End Sub
+
+Public Function EAccounts(ByVal customerN As String) As Boolean
+    Dim TQR As DAO.QueryDef
+    Dim TRS As DAO.Recordset
+    Dim QryStr As String
+    QryStr = "SELECT accounts.balance FROM Accounts WHERE accounts.custno='" & customerN & "' AND accounts.balance <> 0.0;"
+    Set TQR = DBMain.CreateQueryDef("", QryStr)
+    Set TRS = TQR.OpenRecordset()
+    If TRS.RecordCount = 0 Then
+        EAccounts = False
+    Else
+        EAccounts = True
+    End If
+End Function
+
+Public Sub FullRow(ByVal list As ListView)
+    SendMessage list.hwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, LVS_EX_FULLROWSELECT, 1
+End Sub
+
+Public Sub DrawBorder(ByVal MARGIN As Long, ByVal F As Form)
+    F.Line (MARGIN, MARGIN)-(F.ScaleWidth - MARGIN, MARGIN)
+    F.Line (MARGIN, MARGIN)-(MARGIN, F.ScaleHeight - MARGIN)
+    F.Line (F.ScaleWidth - MARGIN, MARGIN)-(F.ScaleWidth - MARGIN, F.ScaleHeight - MARGIN)
+    F.Line (MARGIN, F.ScaleHeight - MARGIN)-(F.ScaleWidth - MARGIN, F.ScaleHeight - MARGIN)
+End Sub
+

@@ -1,0 +1,31 @@
+Line 36: Class MSComctlLib.ListView of control LSTPAYMENTS was not a loaded control class.
+Line 77: Class MSComctlLib.TabStrip of control TabStrip1 was not a loaded control class.
+Line 306: Class MSComctlLib.ImageList of control IMGLIST was not a loaded control class.
+Line 42: The property name _ExtentX in LSTPAYMENTS is invalid.
+Line 43: The property name _ExtentY in LSTPAYMENTS is invalid.
+Line 44: The property name View in LSTPAYMENTS is invalid.
+Line 45: The property name LabelEdit in LSTPAYMENTS is invalid.
+Line 46: The property name LabelWrap in LSTPAYMENTS is invalid.
+Line 47: The property name HideSelection in LSTPAYMENTS is invalid.
+Line 48: The property name FullRowSelect in LSTPAYMENTS is invalid.
+Line 49: The property name GridLines in LSTPAYMENTS is invalid.
+Line 50: The property name _Version in LSTPAYMENTS is invalid.
+Line 51: The property name SmallIcons in LSTPAYMENTS is invalid.
+Line 56: The property name NumItems in LSTPAYMENTS is invalid.
+Line 60: The property name ColumnHeader(1) in LSTPAYMENTS is invalid.
+Line 65: The property name ColumnHeader(2) in LSTPAYMENTS is invalid.
+Line 70: The property name ColumnHeader(3) in LSTPAYMENTS is invalid.
+Line 75: The property name ColumnHeader(4) in LSTPAYMENTS is invalid.
+Line 83: The property name _ExtentX in TabStrip1 is invalid.
+Line 84: The property name _ExtentY in TabStrip1 is invalid.
+Line 85: The property name TabFixedHeight in TabStrip1 is invalid.
+Line 86: The property name HotTracking in TabStrip1 is invalid.
+Line 87: The property name _Version in TabStrip1 is invalid.
+Line 94: The property name Tabs in TabStrip1 is invalid.
+Line 309: The property name _ExtentX in IMGLIST is invalid.
+Line 310: The property name _ExtentY in IMGLIST is invalid.
+Line 312: The property name ImageWidth in IMGLIST is invalid.
+Line 313: The property name ImageHeight in IMGLIST is invalid.
+Line 314: The property name MaskColor in IMGLIST is invalid.
+Line 315: The property name _Version in IMGLIST is invalid.
+Line 322: The property name Images in IMGLIST is invalid.
