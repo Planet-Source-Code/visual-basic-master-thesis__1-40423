@@ -1,0 +1,23 @@
+Line 45: Class MSComctlLib.ImageList of control IMGLIST was not a loaded control class.
+Line 63: Class MSComctlLib.ListView of control LSTSUPPS was not a loaded control class.
+Line 48: The property name _ExtentX in IMGLIST is invalid.
+Line 49: The property name _ExtentY in IMGLIST is invalid.
+Line 51: The property name ImageWidth in IMGLIST is invalid.
+Line 52: The property name ImageHeight in IMGLIST is invalid.
+Line 53: The property name MaskColor in IMGLIST is invalid.
+Line 54: The property name _Version in IMGLIST is invalid.
+Line 61: The property name Images in IMGLIST is invalid.
+Line 69: The property name _ExtentX in LSTSUPPS is invalid.
+Line 70: The property name _ExtentY in LSTSUPPS is invalid.
+Line 71: The property name View in LSTSUPPS is invalid.
+Line 72: The property name LabelEdit in LSTSUPPS is invalid.
+Line 73: The property name LabelWrap in LSTSUPPS is invalid.
+Line 74: The property name HideSelection in LSTSUPPS is invalid.
+Line 75: The property name FullRowSelect in LSTSUPPS is invalid.
+Line 76: The property name GridLines in LSTSUPPS is invalid.
+Line 77: The property name _Version in LSTSUPPS is invalid.
+Line 78: The property name SmallIcons in LSTSUPPS is invalid.
+Line 83: The property name NumItems in LSTSUPPS is invalid.
+Line 87: The property name ColumnHeader(1) in LSTSUPPS is invalid.
+Line 92: The property name ColumnHeader(2) in LSTSUPPS is invalid.
+Line 97: The property name ColumnHeader(3) in LSTSUPPS is invalid.

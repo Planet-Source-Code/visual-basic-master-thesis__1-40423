@@ -1,0 +1,49 @@
+; Program Error Handler
+; Written By: Danny L. Cooper II
+
+This file is a log of all program errors.
+Date Created: 8/24/2001
+Time Created: 2:36:47 PM
+
+Err Date: 8/24/2001
+Err Time: 2:36:47 PM
+Err Nmbr: 13
+Err Srce: S_ISystem
+Err Dscr: Type mismatch
+
+Err Date: 8/24/2001
+Err Time: 2:36:52 PM
+Err Nmbr: 380
+Err Srce: S_ISystem
+Err Dscr: Invalid property value
+
+Err Date: 8/24/2001
+Err Time: 2:36:53 PM
+Err Nmbr: 13
+Err Srce: S_ISystem
+Err Dscr: Type mismatch
+
+Err Date: 8/24/2001
+Err Time: 2:36:54 PM
+Err Nmbr: 380
+Err Srce: S_ISystem
+Err Dscr: Invalid property value
+
+Err Date: 8/24/2001
+Err Time: 2:36:55 PM
+Err Nmbr: 13
+Err Srce: S_ISystem
+Err Dscr: Type mismatch
+
+Err Date: 8/24/2001
+Err Time: 2:36:57 PM
+Err Nmbr: 380
+Err Srce: S_ISystem
+Err Dscr: Invalid property value
+
+Err Date: 8/24/2001
+Err Time: 2:36:59 PM
+Err Nmbr: 13
+Err Srce: S_ISystem
+Err Dscr: Type mismatch
+
